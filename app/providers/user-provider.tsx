@@ -3,22 +3,54 @@
 import { createContext, useContext, useState } from 'react'
 
 type User = {
-    id: string;
     name: string;
     jobTitle: string;
 }
 
-const UserContext = createContext<{ user?: User, login?: () => void; logout?: () => void; }>({});
+const UserContext = createContext<{ user?: User, login?: any; updateUser?: any; logout?: () => void; }>({});
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
     const storedUser = window.localStorage.getItem('user');
 
     const [user, setUser] = useState<User | undefined>(storedUser ? JSON.parse(storedUser) : undefined);
 
-    const login = () => {
-        const newUser = { name: 'Val', jobTitle: 'Developer', id: '1' };
+    const login = (
+        prevState: { status: boolean; error?: string } | undefined,
+        formData: FormData
+    ) => {
+        const name = formData.get('name')?.toString().trim();
+        const jobTitle = formData.get('jobTitle')?.toString().trim();
+        if (!name || !jobTitle) {
+            return { status: false };
+        }
+        const newUser: User = {
+            name,
+            jobTitle
+        }
         window.localStorage.setItem('user', JSON.stringify(newUser));
         setUser(newUser);
+        return { status: true };
+    }
+
+    const updateUser = (
+        prevState: { status: boolean; error?: string; } | undefined,
+        formData: FormData
+    ) => {
+        if (!user) {
+            return { status: false };
+        }
+        const name = formData.get('name')?.toString().trim();
+        const jobTitle = formData.get('jobTitle')?.toString().trim();
+        if (!name || !jobTitle) {
+            return { status: false };
+        }
+        const updatedUser: User = {
+            name,
+            jobTitle
+        }
+        window.localStorage.setItem('user', JSON.stringify(updatedUser));
+        setUser(updatedUser);
+        return { status: true };
     }
 
     const logout = () => {
@@ -26,7 +58,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         setUser(undefined);
     }
 
-    return <UserContext.Provider value={{ user, login, logout }}>
+    return <UserContext.Provider value={{ user, login, logout, updateUser }}>
         {children}
     </UserContext.Provider>
 }

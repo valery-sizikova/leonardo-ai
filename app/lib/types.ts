@@ -1,9 +1,6 @@
 export type User = {
-    id: string;
     name: string;
     jobTitle: string;
-    email: string;
-    password: string;
 };
 
 export type Episode = {

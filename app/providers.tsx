@@ -5,5 +5,9 @@ import { UserProvider } from './providers/user-provider'
 
 
 export function Providers({ children }: { children: React.ReactNode }) {
-    return <ChakraProvider><UserProvider>{children}</UserProvider></ChakraProvider>
+    return <ChakraProvider>
+        <UserProvider>
+            {children}
+        </UserProvider>
+    </ChakraProvider>
 }

@@ -1,17 +1,10 @@
-'use client';
-
 import AppLayout from "../components/app-layout";
-import { useUserProvider } from "../providers/user-provider";
+import Profile from "../components/profile";
 
-export default function Profile() {
-
-    const { user } = useUserProvider();
-
+export default function ProfilePage() {
     return (
         <AppLayout>
-            Name - {user?.name}
-            <br />
-            JobTitle - {user?.jobTitle}
+            <Profile />
         </AppLayout>
     )
 }

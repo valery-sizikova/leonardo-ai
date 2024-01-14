@@ -2,19 +2,14 @@
 
 import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { useFormState, useFormStatus } from "react-dom";
-import { updateUser } from "../lib/actions";
 import { useEffect, useState } from "react";
+import { useUserProvider } from "../providers/user-provider";
 
-type User = {
-    email: string;
-    name?: string;
-    jobTitle?: string;
-}
+export default function IntroModal() {
+    const { login } = useUserProvider();
+    const [formState, dispatch] = useFormState<{ status: boolean; } | undefined>(login, undefined);
 
-export default function IntroModal({ user }: { user: User }) {
-    const [formState, dispatch] = useFormState(updateUser, undefined);
-
-    const [open, setOpen] = useState(!user.name);
+    const [open, setOpen] = useState(true);
 
     useEffect(() => {
         if (formState?.status) {
@@ -31,22 +26,6 @@ export default function IntroModal({ user }: { user: User }) {
                 <form action={dispatch}>
 
                     <ModalBody>
-                        <FormControl>
-                            <FormLabel
-                                htmlFor="email"
-                            >
-                                What's your email?
-                            </FormLabel>
-                            <Input
-                                id="email"
-                                type="email"
-                                name="email"
-                                placeholder="Enter your email"
-                                required
-                                value={user.email}
-                                readOnly
-                            />
-                        </FormControl>
                         <FormControl>
                             <FormLabel
                                 htmlFor="name"

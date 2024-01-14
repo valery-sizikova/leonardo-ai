@@ -3,11 +3,12 @@
 import { Menu as MenuComponent, MenuButton, MenuItem, MenuList, Avatar, MenuGroup, Box, Button } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { useUserProvider } from "../providers/user-provider";
+import IntroModal from "./intro-modal";
 
 export default function Menu() {
-    const { user, login, logout } = useUserProvider();
+    const { user, logout } = useUserProvider();
 
-    return !user ? <Button onClick={login}>Login</Button> : (
+    return !user ? <IntroModal /> : (
         <Box>
             <MenuComponent>
                 <MenuButton type="button" _focus={{ boxShadow: 'outline' }}>
@@ -26,7 +27,6 @@ export default function Menu() {
                     </MenuGroup>
                 </MenuList>
             </MenuComponent>
-            {/* {session?.user && <IntroModal user={{ email: session.user.email ?? '', name: session.user.name ?? '', jobTitle: session.user.jobTitle ?? '' }} />} */}
         </Box>
     )
 }
