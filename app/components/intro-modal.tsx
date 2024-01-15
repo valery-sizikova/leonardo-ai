@@ -13,11 +13,10 @@ import {
     ModalOverlay,
 } from "@chakra-ui/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useUserProvider } from "../providers/user-provider";
 import { SliderActions, SliderContent, type Step } from "./ui/slider";
+import { createUser } from "../lib/actions";
 
 export default function IntroModal() {
-    const { login } = useUserProvider();
     const [isOpen, setIsOpen] = useState(true);
     const onClose = useCallback(() => {
         setIsOpen(false);
@@ -76,9 +75,9 @@ export default function IntroModal() {
 
     const [formState, setFormState] = useState(false);
 
-    const dispatch = () => {
-        login?.({ name: formData.name.trim(), jobTitle: formData.jobTitle.trim() });
-        setFormState(true);
+    const dispatch = async () => {
+        await createUser(formData.name.trim(), formData.jobTitle.trim());
+        location.reload();
     };
 
     useEffect(() => {

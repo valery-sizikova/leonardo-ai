@@ -5,7 +5,6 @@ import { Button, ButtonGroup, Flex, List, ListItem, Modal, ModalBody, ModalClose
 import { useMemo, useState } from "react";
 import EpisodeModal from "./episode-modal";
 import { Episode, Episodes } from "@/app/lib/types";
-import { useUserProvider } from "@/app/providers/user-provider";
 
 const GET_EPISODES_QUERY = gql`
   query GetEpisodes($page: Int) {
@@ -24,7 +23,6 @@ const GET_EPISODES_QUERY = gql`
 `;
 
 export default function EpisodesList() {
-    const { user } = useUserProvider();
     const [currentPage, setCurrentPage] = useState(1);
     const { data } = useSuspenseQuery<Episodes>(GET_EPISODES_QUERY, {
         variables: {
@@ -48,10 +46,6 @@ export default function EpisodesList() {
     const selectedEpisode: Episode | undefined = useMemo(() => {
         return data.episodes.results.find(ep => ep.id === selectedEpisodeId)
     }, [data, selectedEpisodeId]);
-
-    if (!user) {
-        return null;
-    }
 
     return (
         <>

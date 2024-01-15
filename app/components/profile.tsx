@@ -1,20 +1,21 @@
 'use client';
 
-import { useFormState, useFormStatus } from "react-dom";
-import { useUserProvider } from "../providers/user-provider";
+import { useFormStatus } from "react-dom";
 import { Button, Flex, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { User } from "../lib/types";
+import { updateUser } from "../lib/actions";
 
-export default function Profile() {
-    const { user, updateUser } = useUserProvider();
-
-    const [, dispatch] = useFormState<{ status: boolean; } | undefined>(updateUser, undefined);
+export default function Profile({ user }: { user?: User }) {
+    const onSubmit = (formData: FormData) => {
+        updateUser(undefined, formData)
+    }
 
     if (!user) {
         return null;
     }
 
     return (
-        <form action={dispatch}>
+        <form action={onSubmit}>
             <Flex direction='column' gap={6}>
                 <Flex direction='column' gap={4}>
                     <FormControl>
@@ -30,7 +31,7 @@ export default function Profile() {
                             name="name"
                             placeholder="Enter your name"
                             required
-                            defaultValue={user?.name}
+                            defaultValue={user.name}
                         />
                     </FormControl>
                     <FormControl>
@@ -45,7 +46,7 @@ export default function Profile() {
                             name="jobTitle"
                             placeholder="Enter your job title"
                             required
-                            defaultValue={user?.jobTitle}
+                            defaultValue={user.jobTitle}
                         />
                     </FormControl>
                 </Flex>

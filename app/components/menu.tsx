@@ -2,12 +2,11 @@
 
 import { Menu as MenuComponent, MenuButton, MenuItem, MenuList, Avatar, MenuGroup, Box, Button } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { useUserProvider } from "../providers/user-provider";
 import IntroModal from "./intro-modal";
+import { deleteUser } from "../lib/actions";
+import { User } from "../lib/types";
 
-export default function Menu() {
-    const { user, logout } = useUserProvider();
-
+export default function Menu({ user }: { user?: User }) {
     return !user ? <IntroModal /> : (
         <Box>
             <MenuComponent>
@@ -21,7 +20,10 @@ export default function Menu() {
                                 Profile
                             </MenuItem>
                         </NextLink>
-                        <MenuItem onClick={logout}>
+                        <MenuItem onClick={async () => {
+                            await deleteUser();
+                            location.reload();
+                        }}>
                             Sign out
                         </MenuItem>
                     </MenuGroup>
