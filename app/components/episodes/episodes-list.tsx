@@ -1,7 +1,7 @@
 'use client';
 
 import { gql, useSuspenseQuery } from "@apollo/client";
-import { Button, ButtonGroup, Flex, List, ListItem, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from "@chakra-ui/react";
+import { Button, ButtonGroup, Flex, List, ListItem, Modal, ModalOverlay, Text } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
 import EpisodeModal from "./episode-modal";
 import { Episode, Episodes } from "@/app/lib/types";

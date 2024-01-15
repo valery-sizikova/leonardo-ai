@@ -1,6 +1,6 @@
 'use client';
 
-import { Menu as MenuComponent, MenuButton, MenuItem, MenuList, Avatar, MenuGroup, Box, Button } from "@chakra-ui/react";
+import { Menu as MenuComponent, MenuButton, MenuItem, MenuList, Avatar, MenuGroup, Box } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { useUserProvider } from "../providers/user-provider";
 import IntroModal from "./intro-modal";
