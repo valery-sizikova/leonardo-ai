@@ -7,7 +7,7 @@ import { Button, Flex, FormControl, FormLabel, Input } from "@chakra-ui/react";
 export default function Profile() {
     const { user, updateUser } = useUserProvider();
 
-    const [formState, dispatch] = useFormState<{ status: boolean; } | undefined>(updateUser, undefined);
+    const [, dispatch] = useFormState<{ status: boolean; } | undefined>(updateUser, undefined);
 
     if (!user) {
         return null;
@@ -24,6 +24,7 @@ export default function Profile() {
                             Name
                         </FormLabel>
                         <Input
+                            autoFocus
                             id="name"
                             type="text"
                             name="name"
