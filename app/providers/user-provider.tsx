@@ -7,7 +7,7 @@ type User = {
     jobTitle: string;
 }
 
-const UserContext = createContext<{ user?: User, login?: any; updateUser?: any; logout?: () => void; }>({});
+const UserContext = createContext<{ user?: User, login?: (u: User) => void; updateUser?: any; logout?: () => void; }>({});
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
     const storedUser = typeof window !== 'undefined' ? window.localStorage.getItem('user') : undefined;
@@ -15,17 +15,14 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | undefined>(storedUser ? JSON.parse(storedUser) : undefined);
 
     const login = (
-        prevState: { status: boolean; error?: string } | undefined,
-        formData: FormData
+        userToLogin: User
     ) => {
-        const name = formData.get('name')?.toString().trim();
-        const jobTitle = formData.get('jobTitle')?.toString().trim();
-        if (!name || !jobTitle) {
+        if (!userToLogin.name || !userToLogin.jobTitle) {
             return { status: false };
         }
         const newUser: User = {
-            name,
-            jobTitle
+            name: userToLogin.name,
+            jobTitle: userToLogin.jobTitle
         }
         if (typeof window !== 'undefined') window.localStorage.setItem('user', JSON.stringify(newUser));
         setUser(newUser);

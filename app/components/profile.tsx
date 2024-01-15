@@ -50,11 +50,12 @@ export default function Profile() {
                 </Flex>
                 <SaveButton />
             </Flex>
+            {/* TODO: add submission feedback here: a green tick if save successfully or display an error */}
         </form>
     )
 }
 
-export function SaveButton() {
+function SaveButton() {
     const { pending } = useFormStatus();
 
     return (
