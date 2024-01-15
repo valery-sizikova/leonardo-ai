@@ -10,7 +10,7 @@ type User = {
 const UserContext = createContext<{ user?: User, login?: any; updateUser?: any; logout?: () => void; }>({});
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
-    const storedUser = window.localStorage.getItem('user');
+    const storedUser = typeof window !== 'undefined' ? window.localStorage.getItem('user') : undefined;
 
     const [user, setUser] = useState<User | undefined>(storedUser ? JSON.parse(storedUser) : undefined);
 
@@ -27,7 +27,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
             name,
             jobTitle
         }
-        window.localStorage.setItem('user', JSON.stringify(newUser));
+        if (typeof window !== 'undefined') window.localStorage.setItem('user', JSON.stringify(newUser));
         setUser(newUser);
         return { status: true };
     }
@@ -48,13 +48,13 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
             name,
             jobTitle
         }
-        window.localStorage.setItem('user', JSON.stringify(updatedUser));
+        if (typeof window !== 'undefined') window.localStorage.setItem('user', JSON.stringify(updatedUser));
         setUser(updatedUser);
         return { status: true };
     }
 
     const logout = () => {
-        window.localStorage.removeItem('user')
+        if (typeof window !== 'undefined') window.localStorage.removeItem('user')
         setUser(undefined);
     }
 

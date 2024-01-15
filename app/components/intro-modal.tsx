@@ -15,7 +15,7 @@ export default function IntroModal() {
         if (formState?.status) {
             setOpen(false);
         }
-    })
+    }, [formState?.status])
 
     return (
         <Modal isOpen={open} closeOnOverlayClick={false} onClose={() => setOpen(false)}>
@@ -30,7 +30,7 @@ export default function IntroModal() {
                             <FormLabel
                                 htmlFor="name"
                             >
-                                What's your name?
+                                What&apos;s your name?
                             </FormLabel>
                             <Input
                                 id="name"
@@ -44,7 +44,7 @@ export default function IntroModal() {
                             <FormLabel
                                 htmlFor="jobTitle"
                             >
-                                What's your job title?
+                                What&apos;s your job title?
                             </FormLabel>
                             <Input
                                 id="jobTitle"
