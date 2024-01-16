@@ -25,8 +25,3 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-
-## Developer's notes
-
-This is my first time using the latest version on NextJS with App Router + React Server Components. I could not avoid some issues with hydration, given more time I would look into that. Mostly it is caused by the usage of `localStorage` for data persistence, which I chose for the sake of speed.

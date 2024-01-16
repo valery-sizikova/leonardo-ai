@@ -1,6 +1,7 @@
 'use client'
 
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext } from 'react'
+import useLocalStorage from '../utils/hooks/use-local-storage';
 
 type User = {
     name: string;
@@ -10,9 +11,7 @@ type User = {
 const UserContext = createContext<{ user?: User, login?: (u: User) => void; updateUser?: any; logout?: () => void; }>({});
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
-    const storedUser = typeof window !== 'undefined' ? window.localStorage.getItem('user') : undefined;
-
-    const [user, setUser] = useState<User | undefined>(storedUser ? JSON.parse(storedUser) : undefined);
+    const [user, setUser, resetUser] = useLocalStorage('user');
 
     const login = (
         userToLogin: User
@@ -24,7 +23,6 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
             name: userToLogin.name,
             jobTitle: userToLogin.jobTitle
         }
-        if (typeof window !== 'undefined') window.localStorage.setItem('user', JSON.stringify(newUser));
         setUser(newUser);
         return { status: true };
     }
@@ -45,14 +43,12 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
             name,
             jobTitle
         }
-        if (typeof window !== 'undefined') window.localStorage.setItem('user', JSON.stringify(updatedUser));
         setUser(updatedUser);
         return { status: true };
     }
 
     const logout = () => {
-        if (typeof window !== 'undefined') window.localStorage.removeItem('user')
-        setUser(undefined);
+        resetUser();
     }
 
     return <UserContext.Provider value={{ user, login, logout, updateUser }}>
